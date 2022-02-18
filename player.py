@@ -27,6 +27,7 @@ class Player(pygame.sprite.Sprite):
 		else:self.direction.x = 0
 		if keys[pygame.K_SPACE] and self.jump == 1:
 			self.direction.y = -self.jump_speed
+			#self.jump += 1
 			draw_text("Pulou", (255, 255, 255), pygame.display.get_surface(), 20, 20)
 
 	def h_collisions(self):

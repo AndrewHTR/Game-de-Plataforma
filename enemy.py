@@ -11,18 +11,11 @@ class Enemy(pygame.sprite.Sprite):
 
 		self.direction = pygame.math.Vector2()
 		self.gravity = 0.8
+		self.speed = 8
 		self.jump = 0
 
 		self.collision_sprites = collision_sprites
 		self.enemy = enemy
-
-	def h_collisions(self):
-		for sprite in self.collision_sprites.sprites():
-			if sprite.rect.colliderect(self.rect):
-				if self.direction.x < 0:
-					self.rect.left = sprite.rect.right
-				if self.direction.x > 0:
-					self.rect.right = sprite.rect.left
 
 	def v_collisions(self):
 		for sprite in self.collision_sprites.sprites():
@@ -30,25 +23,23 @@ class Enemy(pygame.sprite.Sprite):
 				if self.direction.y > 0:
 					self.rect.bottom = sprite.rect.top
 					self.direction.y = 0
-					
+
 				if self.direction.y < 0:
 					self.rect.top = sprite.rect.bottom
 					self.direction.y = 0
-		if self.jump and self.direction.y != 0:
-			self.jump = 0
 	
 	def blow(self):
-		for sprite in self.enemy.sprites():	
-			if sprite.rect.colliderect(self.rect):	
-				if self.rect.top == sprite.rect:
-					draw_text("matou", (255, 255, 255), self.display_surface, 20, 20)
+		for sprite in self.enemy.sprites():
+			if self.rect.top == sprite.rect.bottom:
+				self.kill()
+				draw_text("matou", (255, 255, 255), pygame.display.get_surface(), 20, 20)
 
 	def apply_gravity(self):
 		self.direction.y += self.gravity
 		self.rect.y += self.direction.y
 
 	def update(self):
-		self.blow()
-		self.h_collisions()
 		#self.apply_gravity()
+		self.rect.x += self.direction.x * self.speed
 		self.v_collisions()
+		self.blow()

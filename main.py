@@ -2,6 +2,7 @@ import pygame, sys
 from pygame.locals import *
 from settings import *
 from level import Level
+from debug import *
 
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -18,5 +19,6 @@ while True:
 			sys.exit()
 			
 	level.run()
+	display_fps(clock)
 	pygame.display.update()
 	clock.tick(60)

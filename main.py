@@ -11,12 +11,15 @@ clock = pygame.time.Clock()
 
 level = Level()
 
-while True:
+while True: 
 	screen.fill(BG_COLOR)
 	for event in pygame.event.get():
 		if event.type == QUIT:
 			pygame.quit()
 			sys.exit()
+		if event.type == KEYDOWN:
+			if event.key == K_r:
+				Level()
 			
 	level.run()
 	display_fps(clock)

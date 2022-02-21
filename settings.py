@@ -3,7 +3,7 @@ LEVEL_MAP = [
 '                                XXXX          ',
 '          E                                   ',
 '       XXXX           XX             XX       ',
-' P                                            ',
+' C           P           C                C   ',
 'XXXXX         XX         XX              XXXX ',
 ' XXXX       XX        E            E          ',
 ' XX    X  XXXX    XX  XX         XXXXXXX      ',
@@ -16,7 +16,7 @@ WIDTH     = 1280
 HEIGHT    = 720
 
 # colors 
-BG_COLOR     = '#060C17'
+BG_COLOR     = '#131f36'
 PLAYER_COLOR = '#C4F7FF'
 TILE_COLOR   = '#94D7F2'
 

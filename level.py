@@ -3,6 +3,7 @@ from settings import *
 from tile import Tile
 from player import Player
 from enemy import Enemy
+from coins import Coins
 
 class Level:
 
@@ -15,6 +16,7 @@ class Level:
 		self.active_sprites    = pygame.sprite.Group()
 		self.collision_sprites = pygame.sprite.Group()
 		self.enemy 			   = pygame.sprite.Group()
+		self.coin  			   = pygame.sprite.Group()
 		self.setup_level()
 
 	def setup_level(self):
@@ -25,16 +27,24 @@ class Level:
 				if col == "X":
 					Tile((x, y), [self.visible_sprites, self.collision_sprites])
 				if col == 'P':
-					self.player = Player((x, y), [self.visible_sprites, self.active_sprites, self.enemy], self.collision_sprites)
-
+					self.player = Player((x, y), [self.visible_sprites, self.active_sprites], self.collision_sprites, self.enemy, self.coin)
 				if col == 'E':
-					Enemy((x, y), [self.visible_sprites, self.collision_sprites, self.active_sprites], self.collision_sprites, self.enemy)
+					Enemy((x, y + 42), [self.visible_sprites, self.active_sprites, self.enemy])
+				if col == 'C':
+					Coins((x,y - 15), [self.visible_sprites,self.active_sprites, self.coin])
+
+	def reset(self):
+		keys = pygame.key.get_pressed()
+		if keys[pygame.K_r]:
+			pass
 
 
 	def run(self):
 		# Roda o level 
 		self.active_sprites.update()
+		self.enemy.update()
 		self.visible_sprites.custom_draw(self.player)
+		#self.reset()
 
 class CameraGroup(pygame.sprite.Group):
 	def __init__(self):

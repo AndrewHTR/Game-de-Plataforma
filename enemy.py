@@ -3,43 +3,38 @@ from settings import *
 from debug import draw_text
 
 class Enemy(pygame.sprite.Sprite):
-	def __init__(self, pos, group, collision_sprites, enemy):
+	def __init__(self, pos, group):
 		super().__init__(group)
-		self.image = pygame.Surface((TILE_SIZE // 2, TILE_SIZE))
-		self.image.fill((255,0,0))
+		self.images = []
+		self.images.append(pygame.image.load('sprite/enemy/slime.png').convert_alpha())
+		self.images.append(pygame.image.load('sprite/enemy/slime_1.png').convert_alpha())
+		self.images.append(pygame.image.load('sprite/enemy/slime_2.png').convert_alpha())
+		#self.images.append(pygame.image.load('enemy/slime_1.png').convert_alpha())
+		#self.images.append(pygame.image.load('enemy/slime_2.png').convert_alpha())
+		#self.images.append(pygame.image.load('enemy/slime.png').convert_alpha())
+
+
+		
+		self.index = 0
+		self.image = self.images[self.index]
 		self.rect  = self.image.get_rect(topleft = pos)
 
 		self.direction = pygame.math.Vector2()
 		self.gravity = 0.8
 		self.speed = 8
-		self.jump = 0
-
-		self.collision_sprites = collision_sprites
-		self.enemy = enemy
-
-	def v_collisions(self):
-		for sprite in self.collision_sprites.sprites():
-			if sprite.rect.colliderect(self.rect):
-				if self.direction.y > 0:
-					self.rect.bottom = sprite.rect.top
-					self.direction.y = 0
-
-				if self.direction.y < 0:
-					self.rect.top = sprite.rect.bottom
-					self.direction.y = 0
+		self.jump = 0		
 	
-	def blow(self):
-		for sprite in self.enemy.sprites():
-			if self.rect.top == sprite.rect.bottom:
-				self.kill()
-				draw_text("matou", (255, 255, 255), pygame.display.get_surface(), 20, 20)
-
 	def apply_gravity(self):
 		self.direction.y += self.gravity
 		self.rect.y += self.direction.y
 
 	def update(self):
 		#self.apply_gravity()
-		self.rect.x += self.direction.x * self.speed
-		self.v_collisions()
-		self.blow()
+		#self.rect.x += self.direction.x * self.speed
+		self.index += 0.03
+
+		if self.index >= len(self.images):
+				self.index = 0
+				self.anima = False
+
+		self.image = self.images[int(self.index)]
